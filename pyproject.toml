@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "moscow-public-transport"
+version = "0.1.0"
+description = ""
+authors = ["Dreamlone <mik_sar@mail.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^1.5.2"
+matplotlib = "^3.6.3"
+seaborn = "^0.12.2"
+contextily = "^1.2.0"
+geopandas = "^0.12.2"
+tqdm = "^4.64.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
