@@ -79,8 +79,7 @@
 разницы фактического времени прибытия транспорта и ожидаемого времени прибытия по расписанию.
   Пример генерируемых картинок: 
   
-  <img src="./docs/images/bus_664.png" width="750"/>
-  
-  <img src="./docs/images/bus_664_boxplot.png" width="300"/>
+  | <img src="./docs/images/bus_664_boxplot.png" width="250"/>  |  <img src="./docs/images/bus_664.png" width="500"/> |
+  |---|---|
 
   
