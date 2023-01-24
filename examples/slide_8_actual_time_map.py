@@ -23,22 +23,11 @@ warnings.filterwarnings('ignore')
 TH_MINUTES = 1
 
 
-def visualize_actual_arrival_time(folder_to_save: Union[Path, str] = '.'):
-    """
-    Rus
-    Поиск остановки и транспортного средства с наибольшим количеством информации
-    для наглядной визуализации вида "Насколько сильно опаздывает автобус N
-    на остановке A в зависимости от даты и времени суток"
-    """
+def maps_with_statistics():
     actual = pd.read_csv(Path(get_data_path(), 'actual_vs_forecasted.csv'),
                          parse_dates=['forecast_time_datetime',
                                       'request_time_datetime',
                                       'arrival_time_datetime'])
-
-    if isinstance(folder_to_save, str):
-        folder_to_save = Path(folder_to_save)
-    folder_to_save = folder_to_save.resolve()
-    folder_to_save.mkdir(parents=True, exist_ok=True)
 
     route_path_ids = list(actual['route_path_id'].unique())
     pbar = tqdm(route_path_ids, colour='blue')
@@ -185,4 +174,4 @@ def visualize_actual_arrival_time(folder_to_save: Union[Path, str] = '.'):
 
 
 if __name__ == '__main__':
-    visualize_actual_arrival_time(folder_to_save='./arrival')
+    maps_with_statistics()

@@ -10,32 +10,23 @@ import seaborn as sns
 from tqdm import tqdm
 
 from mostra.data_structure import HOUR_INTO_DAYTIME
-from mostra.paths import get_data_path
+from mostra.paths import get_data_path, create_folder
 
 import warnings
 warnings.filterwarnings('ignore')
 
 
 def visualize_actual_arrival_time(folder_to_save: Union[Path, str] = '.'):
-    """
-    Rus
-    Поиск остановки и транспортного средства с наибольшим количеством информации
-    для наглядной визуализации вида "Насколько сильно опаздывает автобус N
-    на остановке A в зависимости от даты и времени суток"
-    """
     actual = pd.read_csv(Path(get_data_path(), 'actual_vs_forecasted.csv'),
                          parse_dates=['forecast_time_datetime',
                                       'request_time_datetime',
                                       'arrival_time_datetime'])
 
-    if isinstance(folder_to_save, str):
-        folder_to_save = Path(folder_to_save)
-    folder_to_save = folder_to_save.resolve()
-    folder_to_save.mkdir(parents=True, exist_ok=True)
+    folder_to_save = create_folder(folder_to_save)
 
     route_path_ids = list(actual['route_path_id'].unique())
     pbar = tqdm(route_path_ids, colour='blue')
-    for route_path_id in route_path_ids:
+    for route_path_id in pbar:
         pbar.set_description(f'Processing route path with id {route_path_id}')
 
         stop_df = actual[actual['route_path_id'] == route_path_id]

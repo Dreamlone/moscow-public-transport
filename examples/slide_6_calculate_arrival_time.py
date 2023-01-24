@@ -2,13 +2,13 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
+from mostra.data_structure import MIN_FORECAST_HORIZON_SECONDS
+from mostra.main import enrich_with_route_stop_name
 from mostra.paths import get_data_path
-from mostra.routes.routes_with_stops import prepare_df_for_visualization
 
 import warnings
 warnings.filterwarnings('ignore')
 
-MIN_FORECAST_HORIZON_SECONDS = 120
 BELONG_CASE_SECONDS_TEL_THRESHOLD = 10 * 60
 
 
@@ -37,11 +37,10 @@ def calculate_arrival_time():
         route_path_df = df[df['route_path_id'] == route_path_id]
 
         try:
-            df_vis, route_path_name = prepare_df_for_visualization(
-                route_path_df,
-                route_path_id,
-                stop_names,
-                stop_from_repo)
+            df_vis, route_path_name = enrich_with_route_stop_name(route_path_df,
+                                                                  route_path_id,
+                                                                  stop_names,
+                                                                  stop_from_repo)
         except Exception:
             continue
 

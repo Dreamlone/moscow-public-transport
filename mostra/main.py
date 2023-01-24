@@ -10,7 +10,8 @@ from mostra.paths import create_folder, get_data_path
 
 import warnings
 
-from mostra.plots import create_plot_with_stops
+from mostra.plots import create_plot_with_stops, COLORS_PER_TRANSPORT, \
+    create_plot_with_stops_and_transport
 
 warnings.filterwarnings('ignore')
 
@@ -40,6 +41,32 @@ class TransportDataExplorer:
         route_path_ids = list(self.dataframe['route_path_id'].unique())
         route_path_ids.sort()
 
+        for route_name, df_vis, tm_id_df, stops_order, transport_i in self._preprocess_dataframe_for_vis(route_path_ids,
+                                                                                                         stop_names,
+                                                                                                         routes_names):
+            # Generate plot
+            create_plot_with_stops(route_name, stops_order, df_vis,
+                                   tm_id_df, folder_to_save, transport_i)
+
+    def prepare_plots_track_transport(self, folder_to_save: Union[Path, str]):
+        folder_to_save = create_folder(folder_to_save)
+        stop_names, routes_names = self.load_stops_info()
+
+        route_path_ids = list(self.dataframe['route_path_id'].unique())
+        route_path_ids.sort()
+
+        for route_name, df_vis, tm_id_df, stops_order, transport_i in self._preprocess_dataframe_for_vis(route_path_ids,
+                                                                                                         stop_names,
+                                                                                                         routes_names):
+            if len(list(df_vis['tmId'].unique())) > len(COLORS_PER_TRANSPORT):
+                continue
+
+            create_plot_with_stops_and_transport(route_name, stops_order,
+                                                 df_vis, folder_to_save)
+
+    def _preprocess_dataframe_for_vis(self, route_path_ids: list,
+                                      stop_names: pd.DataFrame,
+                                      routes_names: pd.DataFrame):
         for route_path_id in route_path_ids:
             print(f'Create plot for route {route_path_id}')
 
@@ -64,6 +91,7 @@ class TransportDataExplorer:
 
             if len(grouped_by_transport) < 2:
                 continue
+
             max_id = np.argmax(np.array(grouped_by_transport['stop_name']))
             transport_to_check = grouped_by_transport['tmId'].iloc[max_id]
 
@@ -72,17 +100,14 @@ class TransportDataExplorer:
             ######################################
             tm_id_df = df_vis[df_vis['tmId'] == transport_to_check]
             tm_id_df = tm_id_df[tm_id_df['byTelemetry'] == 0]
-            if len(tm_id_df['stop_name'].unique()) != len(df_vis['stop_name'].unique()):
+            if len(tm_id_df['stop_name'].unique()) != len(
+                    df_vis['stop_name'].unique()):
                 print(f'We can miss several stops during analysis - skip current route_path_id')
                 continue
             tm_id_df = tm_id_df.sort_values(by='forecast_time_datetime')
             stops_order = list(tm_id_df['stop_name'].unique())
 
-            ##########################
-            # Create plot with stops #
-            ##########################
-            create_plot_with_stops(route_path_name, stops_order, df_vis,
-                                   tm_id_df, folder_to_save, transport_to_check)
+            yield route_path_name, df_vis, tm_id_df, stops_order, transport_to_check
 
     @staticmethod
     def load_stops_info():
