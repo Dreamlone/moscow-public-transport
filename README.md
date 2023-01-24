@@ -1,5 +1,4 @@
-# moscow-public-transport
-Repo for visualization and EDA of Moscow public transport data.
+<img src="./docs/images/mostra_logo.png" width="600"/>
 
 ## Описание 
 Данный репозиторий содержит код, необходимый для подготовки визуализаций для участия 

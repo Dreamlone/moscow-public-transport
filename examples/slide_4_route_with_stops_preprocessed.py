@@ -6,7 +6,7 @@ import numpy as np
 
 from mostra.data_structure import COLUMN_NAMES
 from mostra.paths import get_data_path
-from mostra.routes.routes_with_stops import prepare_plots_for_route
+from mostra.routes.routes_with_stops import prepare_plots_stops_per_route
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -19,8 +19,7 @@ MIN_FORECAST_HORIZON_SECONDS = 120
 
 def load_preprocessed_dataframe():
     df = pd.read_csv(Path(get_data_path(), 'pred_data.csv'),
-                     names=COLUMN_NAMES,
-                     nrows=300000)
+                     names=COLUMN_NAMES)
 
     # Assign datetime labels for convenient debugging process
     df['forecast_time_datetime'] = pd.to_datetime(df['forecast_time'], unit='s')
@@ -94,4 +93,4 @@ def load_preprocessed_dataframe():
 if __name__ == '__main__':
     # Prepare not the whole dataframe for visualization but small part
     df = load_preprocessed_dataframe()
-    prepare_plots_for_route(df, './routes_preprocessed')
+    prepare_plots_stops_per_route(df, './routes_preprocessed')

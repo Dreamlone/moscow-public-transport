@@ -5,16 +5,15 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from mostra.data_structure import COLUMN_NAMES
 from mostra.paths import get_data_path
-from mostra.routes.routes_with_stops import prepare_plots_for_route, \
-    prepare_df_for_visualization
+from mostra.routes.routes_with_stops import prepare_df_for_visualization
 
 import warnings
 warnings.filterwarnings('ignore')
 
 COLORS_PER_TRANSPORT = ['red', 'orange', 'green', 'blue', 'black',
-                        'purple', 'purple', 'purple', 'purple', 'purple',
+                        'purple', '#FFDB6C', '#EFFF6C', '#EFFF6C', '#59EBAD',
+                        '#5EBDF7', 'purple', 'purple', 'purple', 'purple',
                         'purple', 'purple', 'purple', 'purple', 'purple']
 
 MIN_FORECAST_HORIZON_SECONDS = 120
@@ -38,9 +37,8 @@ def create_plots(folder_to_save: Union[Path, str]):
     route_path_ids = list(df['route_path_id'].unique())
     route_path_ids.sort()
     for i, route_path_id in enumerate(route_path_ids):
-        if i < 27:
-            continue
         print(f'Process path {i} from {len(route_path_ids)}')
+
         route_path_df = df[df['route_path_id'] == route_path_id]
 
         try:
