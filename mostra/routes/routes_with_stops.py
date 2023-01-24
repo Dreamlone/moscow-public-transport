@@ -113,13 +113,13 @@ def create_plot_with_stops(route_path_name: str,
     plt.close()
 
 
-def prepare_plots_for_route(df: pd.DataFrame,
-                            folder_to_save: Union[Path, str]):
+def prepare_plots_stops_per_route(df: pd.DataFrame,
+                                  folder_to_save: Union[Path, str]):
     """
     Rus
     Генерирует графики где приезд транспортных средств упорядочен по времени для
-    выбранных остановок. Остановки также упорядочены снизу вверхе в порядке
-    маршрута
+    выбранных остановок. Остановки также упорядочены снизу вверх в порядке
+    движения транспорта по маршруту
 
     TODO Выяснить есть ли более надежный способ задавать порядок остановок. В
         production решении они должны определяться однозначно из базы данных
@@ -147,7 +147,9 @@ def prepare_plots_for_route(df: pd.DataFrame,
         try:
             df_vis, route_path_name = prepare_df_for_visualization(route_df, route_path_id,
                                                                    stop_names, stop_from_repo)
-        except Exception:
+        except Exception as ex:
+            # Skip incorrect cases
+            print(f'Skip {route_path_id} due to ex')
             continue
 
         grouped_by_transport = df_vis.groupby('tmId').agg({'stop_name': 'count'})

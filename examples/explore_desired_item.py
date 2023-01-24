@@ -10,7 +10,9 @@ def show_desired_item(stop_id: str, route_path_id: str, tm_id: int = None):
     """
     Rus
     Формирует таблицу для требуемого транспортного средства, маршрута (с учетом
-    направления) и остановки. Запрос формируется для исходной таблицы
+    направления) и остановки. Запрос формируется для исходной таблицы с данными.
+    Таким образом можно посмотреть на интересующие данные более пристально -
+    изучить странные артефакты и поискать закономерность "в ручном режиме"
     """
     df = pd.read_csv(Path(get_data_path(), 'pred_data.csv'), names=COLUMN_NAMES)
     df = df[df['stop_id'] == stop_id]
@@ -24,6 +26,7 @@ def show_desired_item(stop_id: str, route_path_id: str, tm_id: int = None):
     df = df.sort_values(by=['request_time_datetime', 'forecast_time_datetime'])
 
     debug_df = df[['request_time_datetime', 'forecast_time_datetime', 'byTelemetry']]
+    print(df)
     return df
 
 
