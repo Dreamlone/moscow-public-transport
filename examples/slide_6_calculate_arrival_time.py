@@ -47,8 +47,8 @@ def calculate_arrival_time():
         for transport in list(df_vis['tmId'].unique()):
             transport_df = df_vis[df_vis['tmId'] == transport]
 
-            for stop in list(transport_df['stop_name'].unique()):
-                stop_df = transport_df[transport_df['stop_name'] == stop]
+            for stop in list(transport_df['stop_id'].unique()):
+                stop_df = transport_df[transport_df['stop_id'] == stop]
                 if 'id' in list(stop_df.columns):
                     stop_df = stop_df.drop(columns=['id'])
 
