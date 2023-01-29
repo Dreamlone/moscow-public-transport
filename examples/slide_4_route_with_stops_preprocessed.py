@@ -33,7 +33,8 @@ def preprocess_schedule_data_and_show():
 
     # And generate visualizations per routes
     explorer = TransportDataExplorer(final_df)
-    explorer.prepare_plots_stops_per_route('./routes_preprocessed')
+    explorer.prepare_plots_stops_per_route('./routes_preprocessed',
+                                           route_name_to_show='Трамвай 21')
 
 
 if __name__ == '__main__':

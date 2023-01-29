@@ -23,7 +23,7 @@ def calculate_arrival_time():
                                   'request_time_datetime'])
 
     stop_from_repo = pd.read_csv(Path(get_data_path(), 'stop_from_repo.csv'))
-    stop_names = stop_from_repo[['stop_id', 'name']]
+    stop_names = stop_from_repo[['stop_id', 'name', 'lon', 'lat']]
     stop_from_repo = stop_from_repo[['route_path_id', 'transport_type', 'number']]
     stop_from_repo = stop_from_repo.drop_duplicates()
     stop_names = stop_names.drop_duplicates()
@@ -47,8 +47,8 @@ def calculate_arrival_time():
         for transport in list(df_vis['tmId'].unique()):
             transport_df = df_vis[df_vis['tmId'] == transport]
 
-            for stop in list(transport_df['stop_name'].unique()):
-                stop_df = transport_df[transport_df['stop_name'] == stop]
+            for stop in list(transport_df['stop_id'].unique()):
+                stop_df = transport_df[transport_df['stop_id'] == stop]
                 if 'id' in list(stop_df.columns):
                     stop_df = stop_df.drop(columns=['id'])
 

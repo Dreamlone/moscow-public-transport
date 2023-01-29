@@ -32,7 +32,7 @@ def maps_with_statistics():
     route_path_ids = list(actual['route_path_id'].unique())
     pbar = tqdm(route_path_ids, colour='blue')
     report = []
-    for route_path_id in route_path_ids:
+    for route_path_id in pbar:
         pbar.set_description(f'Processing route path with id {route_path_id}')
 
         stop_df = actual[actual['route_path_id'] == route_path_id]
@@ -113,7 +113,7 @@ def maps_with_statistics():
     ax = paths_vis.plot(column='Среднее время опозданий, мин',
                     alpha=0.6, legend=True,
                     cmap='Reds',
-                    vmin=0, vmax=3.5,
+                    vmin=0, vmax=8,
                     figsize=(11, 7),
                     legend_kwds={'label': "Среднее время опозданий, мин"},
                     zorder=1, markersize=markersize)
